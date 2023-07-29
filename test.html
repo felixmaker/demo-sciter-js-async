@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Some</title>
+    <script type="module">
+        import * as sciter from "@sciter"
+
+        var i = 0;
+        setInterval(() => {
+            let test_blocking = document.$("#test_blocking");
+            test_blocking.innerText = i;
+            i = i + 1;
+        }, 150)
+
+        var demo_some = sciter.loadLibrary("demo_sciter_js_async");
+        console.log(demo_some)
+
+        function do_something(duration) {
+            return new Promise((resolve, reject) => {
+                demo_some.do_something(duration, resolve, reject)
+            })
+        }
+
+        document.$("#btn").on("click", async () => {
+            let value = document.$("#number_input").value;
+            let some = await do_something(value);
+            console.log(some)
+        })
+
+        // document.$("#btn").on("click",  (event) => {
+        //     let value = document.$("#number").value
+        //     demo_some.do_something(value, (data) => {
+        //         console.log(data)
+        //     });
+        // })
+    </script>
+</head>
+
+<body>
+    <p id="test_blocking">0</p>
+    <input type="number" id="number_input">
+    <button id="btn">do</button>
+</body>
+
+</html>
